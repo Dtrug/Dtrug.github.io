@@ -23,6 +23,10 @@ const listJobsCons = document.getElementById("listJobs-cons");
 const btnSubmitCons = document.getElementById("btnSubmit-cons");
 
 // DOM Edit profile modal
+const fullNameProfileModal = document.getElementById("fullName-profile-modal");
+const phoneProfileModal = document.getElementById("phone-profile-modal");
+const emailProfileModal = document.getElementById("email-profile-modal");
+
 const fullNameProfile = document.getElementById("fullName-profile");
 const phoneProfile = document.getElementById("phone-profile");
 const emailProfile = document.getElementById("email-profile");
@@ -79,6 +83,12 @@ let listConstruction = [
   }
 ]
 
+let userProfile = {
+  fullName: "Nguyễn Văn ABC",
+  phone: "0123456789",
+  email: "nguyenvana@gmail.com"
+}
+
 const openModalCons = () => {
   modalCons.classList.remove("hidden");
   overlay.classList.remove("hidden");
@@ -87,6 +97,10 @@ const openModalCons = () => {
 const openModalEditProfile = () => {
   modelEditProfile.classList.remove("hidden");
   overlay.classList.remove("hidden");
+
+  fullNameProfileModal.value = userProfile.fullName
+  phoneProfileModal.value = userProfile.phone
+  emailProfileModal.value = userProfile.email
 }
 
 const closeModal = () => {
@@ -353,6 +367,17 @@ const handleEditConstruction = (id) => {
   })
 }
 
+const handleSaveProfile = () => {
+  userProfile = {
+    fullName: fullNameProfileModal.value,
+    phone: phoneProfileModal.value,
+    email: emailProfileModal.value
+  }
+
+  loadUserProfile()
+  closeModal()
+}
+
 const generateUniqueId = () => {
   const randomString = Math.random().toString(36).substring(2, 15);
   const timestamp = Date.now();
@@ -392,3 +417,10 @@ const loadDataForTable = () => {
   })
 }
 loadDataForTable()
+
+const loadUserProfile = () => {
+  fullNameProfile.innerHTML = `Họ tên: ${userProfile.fullName}`
+  phoneProfile.innerHTML = `SĐT: ${userProfile.phone}`
+  emailProfile.innerHTML = `Email: ${userProfile.email}`
+}
+loadUserProfile()

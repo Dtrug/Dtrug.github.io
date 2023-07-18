@@ -96,9 +96,9 @@
         <div class="other-info">
             <div style="text-align: left; margin-top: 30px;">
                 <h3 style="margin-bottom: 7px;">Thông tin người quản lý</h3>
-                <p>Họ tên: Nguyễn Văn A</p>
-                <p>SĐT: 0123456789</p>
-                <p>Email: nguyenvana@gmail.com</p>
+                <p id="fullName-profile">Họ tên: Nguyễn Văn A</p>
+                <p id="phone-profile">SĐT: 0123456789</p>
+                <p id="email-profile">Email: nguyenvana@gmail.com</p>
             </div>
             <div>
                 <button onclick="openModalEditProfile()">Chỉnh sửa</button>
@@ -259,18 +259,18 @@
         <div class="content-modal">
             <div>
                 <label for="">Họ tên:</label>
-                <input value="Nguyễn Văn A" id="fullName-profile"/>
+                <input id="fullName-profile-modal"/>
             </div>
             <div>
                 <label for="">SĐT:</label>
-                <input value="0123456789" id="phone-profile"/>
+                <input id="phone-profile-modal"/>
             </div>
             <div>
                 <label for="">Email:</label>
-                <input value="nguyenvana@gmail.com" type="email" id="email-profile"/>
+                <input type="email" id="email-profile-modal"/>
             </div>
         </div>
-        <button class="btn" style="background-color: #ffa127 !important;">Lưu</button>
+        <button class="btn" style="background-color: #ffa127 !important;" onclick="handleSaveProfile()">Lưu</button>
     </section> 
 
     <div class="overlay hidden"></div>
