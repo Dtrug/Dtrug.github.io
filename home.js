@@ -83,7 +83,7 @@ let listConstruction = [
   }
 ]
 
-let userProfile = {
+var userProfile = {
   fullName: "Nguyễn Văn ABC",
   phone: "0123456789",
   email: "nguyenvana@gmail.com"
