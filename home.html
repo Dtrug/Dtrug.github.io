@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="icon2.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="/home.css">
+    <title>Quản lý công trình</title>
+</head>
+<body>
+    <div class="container">
+        <div class="features">
+            <div>
+                <button id="btn-open-model-add-cons">
+                    <i class="fa-solid fa-plus"></i>
+                    Thêm công trình
+                </button>
+            </div>
+        </div>
+        <div class="list-construct">
+            <h2>Danh sách công trình</h2>
+            <div>
+                <span style="font-weight: 500;">Sắp xếp theo: </span>
+                <select>
+                    <option value="1">Ngày bắt đầu</option>
+                    <option>Ngày hoàn thành</option>
+                    <option>Trạng thái</option>
+                    <option>Tiến độ chung</option>
+                    <option>Tên công trình</option>
+                </select>
+            </div>
+            <table class="list-cons-table">
+                <tr>
+                    <th style="width: 5%;">STT</th>
+                    <th style="width: 40%;">Tên công trình</th>
+                    <th style="width: 20%;">Ngày bắt đầu</th>
+                    <th style="width: 20%;">Trạng thái</th>
+                    <th style="width: 15%;">Chức năng</th>
+                </tr>
+                <tbody id="list-cons-tbody">
+                    <tr>
+                        <td>1</td>
+                        <td style="text-align: left; padding: 5px 15px; text-align: justify;">Công trình 1</td>
+                        <td>23:59 01/01/2023</td>
+                        <td style="color: #ffa127; font-weight: 500;">Đang thực hiện</td>
+                        <td class="features-col">
+                            <button onclick="handleEditConstruction(1)"><i class="fa-solid fa-eye"></i></button>
+                            <button onclick="deleteItem(1)"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2</td>
+                        <td style="text-align: left; padding: 5px 15px; text-align: justify;">Công trình 2</td>
+                        <td>23:59 01/01/2023</td>
+                        <td style="color: #555555; font-weight: 500;">Tạm ngưng</td>
+                        <td class="features-col">
+                            <button onclick="handleEditConstruction(1)"><i class="fa-solid fa-eye"></i></button>
+                            <button onclick="deleteItem(2)"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td style="text-align: left; padding: 5px 15px; text-align: justify;">Công trình 3</td>
+                        <td>23:59 01/01/2023</td>
+                        <td style="color: #00b14f; font-weight: 500;">Hoàn thành</td>
+                        <td class="features-col">
+                            <button onclick="handleEditConstruction(1)"><i class="fa-solid fa-eye"></i></button>
+                            <button onclick="deleteItem(3)"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td style="text-align: left; padding: 5px 15px; text-align: justify;">Công trình 4</td>
+                        <td>23:59 01/01/2023</td>
+                        <td style="color: #00b14f; font-weight: 500;">Hoàn thành</td>
+                        <td class="features-col">
+                            <button onclick="handleEditConstruction(1)"><i class="fa-solid fa-eye"></i></button>
+                            <button onclick="deleteItem(4)"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td style="text-align: left; padding: 5px 15px; text-align: justify;">Công trình 5</td>
+                        <td>23:59 01/01/2023</td>
+                        <td style="color: red; font-weight: 500;">Đã huỷ</td>
+                        <td class="features-col">
+                            <button onclick="handleEditConstruction(1)"><i class="fa-solid fa-eye"></i></button>
+                            <button onclick="deleteItem(5)"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="other-info">
+            <div style="text-align: left; margin-top: 30px;">
+                <h3 style="margin-bottom: 7px;">Thông tin người quản lý</h3>
+                <p>Họ tên: Nguyễn Văn A</p>
+                <p>SĐT: 0123456789</p>
+                <p>Email: nguyenvana@gmail.com</p>
+            </div>
+            <div>
+                <button onclick="openModalEditProfile()">Chỉnh sửa</button>
+            </div>
+        </div>
+    </div>
+
+    <section class="modal hidden" id="modal-cons">
+        <div class="flex" style="border-bottom: 1px solid rgb(110, 110, 110);">
+          <h2 id="title-cons" style="padding-bottom: 7px;">Thêm mới công trình</h2>
+          <button class="btn-close">⨉</button>
+        </div>
+        <div class="content-modal">
+            <div>
+                <label for="">Tên công trình:</label>
+                <input id="name-cons" />
+            </div>
+            <div>
+                <label>Ngày bắt đầu:</label>
+                <input type="datetime-local" id="startdate-cons"/>
+            </div>
+            <div>
+                <label>Ngày hoàn thành:</label>
+                <input type="datetime-local" id="finishdate-cons"/>
+            </div>
+            <div>
+                <label>Trạng thái:</label>
+                <select id="status-cons">
+                    <option value="1">Đang thực hiện</option>
+                    <option value="2">Hoàn thành</option>
+                    <option value="3">Tạm ngưng</option>
+                    <option value="4">Đã huỷ</option>                   
+                </select>
+            </div>
+
+            <div>
+                <label>Tiến độ chung: </label>
+                <span id="generalProgress-cons">6/10</span>
+            </div>
+
+            <div>
+                <label>Mô tả chi tiết:</label>
+                <textarea rows="5" id="detailDescription-cons"></textarea>
+            </div>
+            <div>
+                <label>Thành viên thực hiện:</label>
+                <div>
+                    <input style="width: 300px;" placeholder="Nhập họ tên" id="member-cons"/>
+                    <button style="width: 100px; padding: 0.8rem 1.4rem; font-weight: 700;border-radius: 5px;
+                        text-align: center;
+                        font-size: 1em; margin-left: 5px; background-color: #0d6efd; color: #fff;"
+                        onclick="handleAddNewMember()"
+                    >Thêm</button>
+                </div>
+                <ul id="listMember-cons">
+                    <!-- <li>Nguyễn Văn A <span style="margin-left: 5px; cursor: pointer;">&times;</span></li>
+                    <li>Nguyễn Văn B <span style="margin-left: 5px; cursor: pointer;">&times;</span></li>
+                    <li>Nguyễn Văn C <span style="margin-left: 5px; cursor: pointer;">&times;</span></li> -->
+                </ul>
+            </div>
+            <div>
+                <label>Danh sách công việc:</label>
+                <input placeholder="Tên công việc" id="jobName-cons"/>
+                <textarea rows="3" placeholder="Mô tả công việc..." id="jobDescription-cons"></textarea>
+                <textarea rows="2" placeholder="Người thực hiện(Mỗi tên cách nhau bởi dấu phẩy)" id="executor-cons"></textarea>
+                <button style="margin-left: 40%; background-color: #0d6efd;" class="btn" onclick="handleAddNewJob()">Thêm</button>
+                <div class="list-jobs-add" id="listJobs-cons">
+                    <!-- <div>
+                        <h4>1. Công việc 1 <span style="margin-left: 5px; cursor: pointer;">&times;</span></h4>
+                        <p>- Mô tả: Mô tả chi tiết công việc 1</p>
+                        <div >
+                            <span>- Tiến độ: </span>
+                            <input type="range" max="5" min="0" value="4"/>
+                        </div>
+                        <p>- Người thực hiện: Nguyễn Văn A, Nguyễn Văn B</p>
+                    </div>
+                    <div>
+                        <h4>2. Công việc 2 <span style="margin-left: 5px; cursor: pointer;">&times;</span></h4>
+                        <p>- Mô tả: Mô tả chi tiết công việc 2</p>
+                        <div >
+                            <span>- Tiến độ: </span>
+                            <input type="range" max="5" min="0" value="2"/>
+                        </div>
+                        <p>- Người thực hiện: Nguyễn Văn C, Nguyễn Văn D</p>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <button class="btn" id="btnSubmit-cons" onclick="handleAddConstruction()">Xong</button>
+    </section>  
+
+    <!-- <section class="modal hidden" id="modal-edit-cons">
+        <div class="flex" style="border-bottom: 1px solid rgb(110, 110, 110);">
+          <h2 style="padding-bottom: 7px;">Chỉnh sửa công trình</h2>
+          <button class="btn-close" onclick="closeModal()">⨉</button>
+        </div>
+        <div class="content-modal">
+            <div>
+                <label for="">Tên công trình:</label>
+                <input value="Công trình 1" id="name-cons-edit"/>
+            </div>
+            <div>
+                <label>Ngày bắt đầu:</label>
+                <input type="datetime-local" id="startdate-cons-edit"/>
+            </div>
+            <div>
+                <label>Ngày hoàn thành:</label>
+                <input type="datetime-local" id="finishdate-cons-edit"/>
+            </div>
+            <div>
+                <label>Trạng thái:</label>
+                <select id="status-cons-edit">
+                    <option value="1">Đang thực hiện</option>
+                    <option value="2">Hoàn thành</option>
+                    <option value="3">Tạm ngưng</option>
+                    <option value="4">Đã huỷ</option>    
+                </select>
+            </div>
+            <div>
+                <label>Tiến độ chung: </label>
+                <span id="generalProgress-cons-edit">6/10</span>
+            </div>
+            <div>
+                <label>Mô tả chi tiết:</label>
+                <textarea rows="5" id="detailDescription-cons-edit">Mô tả chi tiết công trình 1</textarea>
+            </div>
+            <div>
+                <label>Thành viên thực hiện:</label>
+                <div>
+                    <input style="width: 300px;" placeholder="Nhập họ tên" id="member-cons-edit"/>
+                    <button style="width: 100px; padding: 0.8rem 1.4rem; font-weight: 700;border-radius: 5px;
+                    text-align: center;
+                    font-size: 1em; margin-left: 5px; background-color: #0d6efd; color: #fff;">Thêm</button>
+                </div>
+                <ul id="listMember-cons-edit">
+                    
+                </ul>
+            </div>
+            <div>
+                <label>Danh sách công việc:</label>
+                <input placeholder="Tên công việc" id="jobName-cons-edit"/>
+                <textarea rows="3" placeholder="Mô tả công việc..." id="jobDescription-cons-edit"></textarea>
+                <textarea rows="2" placeholder="Người thực hiện(Mỗi tên cách nhau bởi dấu phẩy)" id="executor-cons-edit"></textarea>
+                <button style="margin-left: 40%; background-color: #0d6efd;" class="btn">Thêm</button>
+                <div class="list-jobs-add" id="listJobs-cons-edit">
+                    
+                </div>
+            </div>
+        </div>
+        <button class="btn" style="background-color: #ffa127 !important;">Lưu</button>
+    </section>  -->
+
+    <section class="modal hidden" id="modal-edit-profile">
+        <div class="flex" style="border-bottom: 1px solid rgb(110, 110, 110);">
+          <h2 style="padding-bottom: 7px;">Chỉnh sửa thông tin cá nhân</h2>
+          <button class="btn-close" onclick="closeModal()">⨉</button>
+        </div>
+        <div class="content-modal">
+            <div>
+                <label for="">Họ tên:</label>
+                <input value="Nguyễn Văn A" id="fullName-profile"/>
+            </div>
+            <div>
+                <label for="">SĐT:</label>
+                <input value="0123456789" id="phone-profile"/>
+            </div>
+            <div>
+                <label for="">Email:</label>
+                <input value="nguyenvana@gmail.com" type="email" id="email-profile"/>
+            </div>
+        </div>
+        <button class="btn" style="background-color: #ffa127 !important;">Lưu</button>
+    </section> 
+
+    <div class="overlay hidden"></div>
+
+    <script src="/home.js"></script>
+</body>
+</html>
