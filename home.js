@@ -1,7 +1,10 @@
+
+// CDN to connect Firebase Database
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-analytics.js";
 import { getDatabase, ref, set, get, update, push } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js"; // Importing the Realtime Database functions
 
+// Configuration connect Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBJS3__rGkW0-Hfa-AQ9IJ44haB7ObTOLk",
   authDomain: "my-project-9c723.firebaseapp.com",
@@ -18,7 +21,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-
+// DOM other element of modal
 const modalCons = document.getElementById("modal-cons");
 const modelEditProfile = document.getElementById("modal-edit-profile");
 const overlay = document.querySelector(".overlay");
@@ -48,13 +51,17 @@ const fullNameProfileModal = document.getElementById("fullName-profile-modal");
 const phoneProfileModal = document.getElementById("phone-profile-modal");
 const emailProfileModal = document.getElementById("email-profile-modal");
 
+// DOM Show profile
 const fullNameProfile = document.getElementById("fullName-profile");
 const phoneProfile = document.getElementById("phone-profile");
 const emailProfile = document.getElementById("email-profile");
 
+// variable remember status of Edit construction(true) or Add construction(false)
 var statusModalEditCons = false
+// ID of construction is editing
 var idConsEdit = null
 
+// Declare information of status construction
 const statusConstruction = [
   {
     id: 1,
@@ -78,6 +85,7 @@ const statusConstruction = [
   }
 ]
 
+// Declare list of construction
 let listConstruction = []
 
 // let listConstruction = [
@@ -106,12 +114,14 @@ let listConstruction = []
 //   }
 // ]
 
+// Declare profile of User
 let userProfile = {
   fullName: "",
   phone: "",
   email: ""
 }
 
+// Get data of user from Firebase
 const getDataFirebase = (code) => {
   const database = getDatabase(); 
   const dataRef = ref(database, code); 
@@ -138,15 +148,18 @@ const getDataFirebase = (code) => {
     });
 }
 
+// Get Id from URL
 const urlParams = new URLSearchParams(window.location.search);
 let identifier = urlParams.get('id');
 getDataFirebase(identifier)
 
+// Function to open modal construction
 const openModalCons = () => {
   modalCons.classList.remove("hidden");
   overlay.classList.remove("hidden");
 };
 
+// Function to open modal edit profile
 window.openModalEditProfile = () => {
   modelEditProfile.classList.remove("hidden");
   overlay.classList.remove("hidden");
@@ -156,6 +169,7 @@ window.openModalEditProfile = () => {
   emailProfileModal.value = userProfile.email
 }
 
+// Function to close modal
 window.closeModal = () => {
   modelEditProfile.classList.add("hidden");
   modalCons.classList.add("hidden");
@@ -166,6 +180,7 @@ window.closeModal = () => {
   resetModelCons();
 };
 
+// Add event onclick for open modal button
 openModalAddConsBtn.addEventListener("click", () => {
   openModalCons();
 
@@ -175,12 +190,13 @@ openModalAddConsBtn.addEventListener("click", () => {
   btnSubmitCons.style.backgroundColor = null
 
   statusModalEditCons = false
-
 });
 
+// Add event onclick for close modal
 closeModalBtn.addEventListener("click", closeModal);
 overlay.addEventListener("click", closeModal);
 
+// Function to handle delete construction
 window.deleteItem = (id) => {
   let text = "Bạn có chắc chắn muốn xoá không?";
   if (confirm(text) == true) {
@@ -202,7 +218,10 @@ window.deleteItem = (id) => {
   }
 }
 
+// Declare list members of construction
 let listNewMembers = []
+
+// Function to handle when add new member of construction
 window.handleAddNewMember = () => {
   let name = memberCons.value
   memberCons.value = ""
@@ -212,6 +231,8 @@ window.handleAddNewMember = () => {
   const newItem = `<li>${name} <span style="margin-left: 5px; cursor: pointer;" onclick="handleDeleteMember(${listNewMembers.length})">&times;</span></li>`;
   listMemberCons.innerHTML += newItem;
 }
+
+// Function to add event type 'Enter'
 memberCons.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
       event.preventDefault();
@@ -219,6 +240,7 @@ memberCons.addEventListener("keypress", function(event) {
   }
 });
 
+// Function to handle delete member
 window.handleDeleteMember = (i) => {
   let newList = listNewMembers.filter((val,index) => index != i)
   listNewMembers = [...newList]
@@ -231,8 +253,10 @@ window.handleDeleteMember = (i) => {
 }
 
 
-// Handle List Jobs
+// Declare list jobs of construction
 let lisNewJobs = []
+
+// Function to handle when add new job of construction
 window.handleAddNewJob = () => {
   let jobName = jobNameCons.value
   let description = jobDescriptionCons.value
@@ -280,6 +304,7 @@ window.handleAddNewJob = () => {
   listJobsCons.innerHTML += newItem
 }
 
+// Function to handle when delete job of construction
 window.handleDeleteJob = (i) => {
   let newList = lisNewJobs.filter((val,index) => index != i)
   lisNewJobs = [...newList]
@@ -313,6 +338,7 @@ window.handleDeleteJob = (i) => {
   }
 }
 
+// Function to handle Add new construction or Edit construction
 window.handleAddConstruction = () => {
   let name = nameCons.value
   let startDate = startDateCons.value
@@ -395,6 +421,7 @@ window.handleAddConstruction = () => {
   closeModal()
 }
 
+// Function to format datatype of date
 const formatDate = (timestamp) => {
   const date = new Date(timestamp);
 
@@ -409,6 +436,7 @@ const formatDate = (timestamp) => {
   return formattedDate;
 }
 
+// Function to handle when user edit construction (keypress 'eye')
 window.handleEditConstruction = (id) => {
   openModalCons();
   generalProgressCons.parentElement.style.display = "block"
@@ -453,6 +481,7 @@ window.handleEditConstruction = (id) => {
   })
 }
 
+// Function to handle save information of profile
 window.handleSaveProfile = () => {
   userProfile = {
     fullName: fullNameProfileModal.value,
@@ -475,12 +504,14 @@ window.handleSaveProfile = () => {
   closeModal()
 }
 
+// Function to create random UID
 const generateUniqueId = () => {
   const randomString = Math.random().toString(36).substring(2, 15);
   const timestamp = Date.now();
   return `${randomString}${timestamp}`;
 }
 
+// Function to reset all info of modal construction about the original state
 const resetModelCons = () => {
   nameCons.value = ""
   startDateCons.value = ""
@@ -495,6 +526,7 @@ const resetModelCons = () => {
   listJobsCons.innerHTML = ""
 }
 
+// Function to load data of construction for table
 const loadDataForTable = () => {
   listConsTbody.innerHTML = null
 
@@ -515,231 +547,10 @@ const loadDataForTable = () => {
 }
 loadDataForTable()
 
+// Function to load data of profile for table
 const loadUserProfile = () => {
   fullNameProfile.innerHTML = `Họ tên: ${userProfile.fullName}`
   phoneProfile.innerHTML = `SĐT: ${userProfile.phone}`
   emailProfile.innerHTML = `Email: ${userProfile.email}`
 }
 loadUserProfile();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function writeData() {
-    const database = getDatabase(); // Get a reference to the database
-    const dataRef = ref(database, 'mycode/name'); // Replace 'path/to/data' with the path where you want to write the data
-
-    const dataToWrite = {
-        name: "John Doe",
-        age: 30,
-        email: "john.doe@example.com"
-        // Add more properties as needed
-    };
-
-    // Use the 'set' method to write the data to the specified location in the database
-    set(dataRef, dataToWrite)
-        .then(() => {
-        console.log("Data was successfully written to the database.");
-        })
-        .catch((error) => {
-        console.error("Error writing data to the database:", error);
-    });
-}
-//writeData();
-
-function getData() {
-  const database = getDatabase(); // Get a reference to the database
-  const dataRef = ref(database, 'mycode/name'); // Replace 'path/to/data' with the path from where you want to fetch the data
-
-  // Use the 'get' method to retrieve the data from the specified location
-  get(dataRef)
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        console.log("Data retrieved from the database:", data);
-      } else {
-        console.log("No data available at the specified location.");
-      }
-    })
-    .catch((error) => {
-      console.error("Error getting data from the database:", error);
-    });
-}
-
-// Call the getData function to retrieve data from the database
-//getData();
-
-
-function updateData() {
-  const database = getDatabase(); // Get a reference to the database
-  const dataRef = ref(database, 'mycode/name'); // Replace 'path/to/data' with the path where you want to update the data
-
-  const updateData = {
-    age: 31, // Updating the 'age' property
-    city: "New York" // Adding a new property 'city'
-  };
-
-  // Use the 'update' method to update specific properties of the data at the specified location
-  update(dataRef, updateData)
-    .then(() => {
-      console.log("Data was successfully updated in the database.");
-    })
-    .catch((error) => {
-      console.error("Error updating data in the database:", error);
-    });
-}
-
-
-// Call the updateData function to update data in the database
-//updateData();
-
-async function addToArray() {
-  const database = getDatabase(); // Get a reference to the database
-  const arrayRef = ref(database, 'mycode/name/list'); // Replace 'path/to/array' with the path where your array is located
-
-  // Fetch the current array data from the database
-  const snapshot = await get(arrayRef);
-  const currentArray = snapshot.val() || [];
-
-  // Add the new data to the array
-  const newData = {
-    item: "New item",
-    quantity: 1
-    // Add more properties as needed for your array items
-  };
-
-  currentArray.push(newData);
-
-  // Set the updated array back to the database
-  set(arrayRef, currentArray)
-    .then(() => {
-      console.log("Data was successfully added to the array in the database.");
-    })
-    .catch((error) => {
-      console.error("Error adding data to the array in the database:", error);
-    });
-}
-
-// Call the addToArray function to add data to the array in the database
-//addToArray();
-
-
-
-
-
-
-// Function to add data to the array in the database
-function addToArray1() {
-  const database = getDatabase(); // Get a reference to the database
-  const arrayRef = ref(database, 'mycode/name/list1'); // Replace 'path/to/array' with the path where your array is located
-
-  const newData = {
-    item: "New item",
-    quantity: 1
-    // Add more properties as needed for your array items
-  };
-
-  // Use the 'push' method to add the new data to the array
-  push(arrayRef, newData)
-    .then(() => {
-      console.log("Data was successfully added to the array in the database.");
-    })
-    .catch((error) => {
-      console.error("Error adding data to the array in the database:", error);
-    });
-}
-
-// Call the addToArray function to add data to the array in the database
-//addToArray1();
-
-
-
-
-
-
-
-
-async function updateElementInArray() {
-  const database = getDatabase(); // Get a reference to the database
-  const arrayRef = ref(database, 'mycode/name/list'); // Replace 'path/to/array' with the path where your array is located
-
-  // Fetch the current array data from the database
-  const snapshot = await get(arrayRef);
-  const currentArray = snapshot.val() || [];
-
-  // Find the index of the element you want to update in the array
-  const elementIndexToUpdate = currentArray.findIndex((val, index) => index == 0); // Replace 'ELEMENT_ID_TO_UPDATE' with the unique identifier of the element
-
-  // If the element exists in the array, update it
-  if (elementIndexToUpdate !== -1) {
-    const updatedElement = {
-      ...currentArray[elementIndexToUpdate],
-      quantity:10,
-      propertyToUpdate: "New value" // Modify the property you want to update
-    };
-
-    currentArray[elementIndexToUpdate] = updatedElement;
-
-    // Set the updated array back to the database
-    set(arrayRef, currentArray)
-      .then(() => {
-        console.log("Element was successfully updated in the array in the database.");
-      })
-      .catch((error) => {
-        console.error("Error updating element in the array in the database:", error);
-      });
-  } else {
-    console.log("Element not found in the array.");
-  }
-}
-
-// Call the updateElementInArray function to update an element in the array in the database
-//updateElementInArray();
-
-
-
-
-async function deleteElementFromArray() {
-  const database = getDatabase(); // Get a reference to the database
-  const arrayRef = ref(database, 'mycode/name/list'); // Replace 'path/to/array' with the path where your array is located
-
-  // Fetch the current array data from the database
-  const snapshot = await get(arrayRef);
-  const currentArray = snapshot.val() || [];
-
-  // Find the index of the element you want to delete in the array
-  const elementIndexToDelete = currentArray.findIndex((val, index) => index == 1); // Replace 'ELEMENT_ID_TO_DELETE' with the unique identifier of the element
-
-  // If the element exists in the array, delete it
-  if (elementIndexToDelete !== -1) {
-    currentArray.splice(elementIndexToDelete, 1); // Remove the element from the array
-
-    // Set the updated array back to the database
-    set(arrayRef, currentArray)
-      .then(() => {
-        console.log("Element was successfully deleted from the array in the database.");
-      })
-      .catch((error) => {
-        console.error("Error deleting element from the array in the database:", error);
-      });
-  } else {
-    console.log("Element not found in the array.");
-  }
-}
-
-// Call the deleteElementFromArray function to delete an element from the array in the database
-//deleteElementFromArray();
